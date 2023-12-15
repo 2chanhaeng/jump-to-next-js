@@ -27,7 +27,7 @@ export default async function QuestionPage({
           timeStyle: "short",
         }).format(createdAt)}
       </p>
-      <Answers answers={answers} />
+      <Answers id={id} answers={answers} />
     </main>
   );
 }
