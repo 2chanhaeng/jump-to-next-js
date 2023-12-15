@@ -10,3 +10,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Question {
+  id        String   @id @default(uuid())
+  subject   String
+  content   String
+  createdAt DateTime @default(now())
+}
+
