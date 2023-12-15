@@ -3,15 +3,30 @@ import { Prisma, PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
-  const createInputs: Prisma.QuestionCreateInput[] = [
-    { subject: "Next.js가 뭔가요?", content: "Next.js에 대해 알고 싶습니다." },
-    { subject: "SSR이 뭔가요?", content: "어디에 좋나요?" },
-    { subject: "React 에 대해 알려주세요", content: "어디서 배울 수 있나요?" },
+  const id = "18cc7998-1321-48f4-b877-e5717c72a0b4";
+  await prisma.answer.deleteMany({ where: { questionId: id } });
+  const createInputs: Prisma.AnswerCreateInput[] = [
+    {
+      content: "Next.js 는 Node.js 를 기반으로 만들어진 SSR 프레임워크 입니다.",
+      question: { connect: { id } },
+    },
+    {
+      content: "Next.js 는 파일 기반 라우팅, 서버 액션 등의 기능이 있습니다.",
+      question: { connect: { id } },
+    },
+    {
+      content: "Next.js 는 React Hooks 등 CSR 기능도 쓸 수 있습니다.",
+      question: { connect: { id } },
+    },
   ];
-  const queries = createInputs.map((data) => prisma.question.create({ data }));
-  await Promise.all(queries);
-  const questions = await prisma.question.findMany();
-  console.log(questions);
+  for (const data of createInputs) {
+    await prisma.answer.create({ data });
+  }
+  const question = await prisma.question.findUnique({
+    where: { id },
+    select: { answers: { select: { content: true } } },
+  });
+  console.log(question?.answers.map(({ content }) => content).join("\n"));
 }
 
 main();
