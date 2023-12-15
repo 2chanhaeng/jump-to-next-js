@@ -1,7 +1,8 @@
 import type { Answer } from "@/prisma";
 import { Answer as Li } from "./Answer";
+import { NewAnswer } from "./NewAnswer";
 
-export function Answers({ answers }: { answers: Answer[] }) {
+export function Answers({ id, answers }: { id: string; answers: Answer[] }) {
   return (
     <section>
       <h2>Answers</h2>
@@ -10,6 +11,7 @@ export function Answers({ answers }: { answers: Answer[] }) {
           <Li key={answer.id} {...answer} />
         ))}
       </ul>
+      <NewAnswer id={id} />
     </section>
   );
 }
