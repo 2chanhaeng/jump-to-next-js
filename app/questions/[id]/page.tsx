@@ -1,5 +1,6 @@
-import { prisma } from "@/prisma";
 import { notFound } from "next/navigation";
+import { Answers } from "@/components/Answers";
+import { prisma } from "@/prisma";
 
 export default async function QuestionPage({
   params: { id },
@@ -20,13 +21,13 @@ export default async function QuestionPage({
     <main>
       <h1>{subject}</h1>
       <p>{content}</p>
-      <p>{createdAt.toString()}</p>
       <p>
         {Intl.DateTimeFormat("ko-KR", {
           dateStyle: "short",
           timeStyle: "short",
         }).format(createdAt)}
       </p>
+      <Answers answers={answers} />
     </main>
   );
 }
