@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { prisma } from "@/prisma";
 
 export default async function QuestionsPage() {
@@ -8,7 +9,9 @@ export default async function QuestionsPage() {
       <h1>Questions</h1>
       <ul>
         {questions.map(({ id, subject }) => (
-          <li key={id}>{subject}</li>
+          <li key={id}>
+            <Link href={`/questions/${id}`}>{subject}</Link>
+          </li>
         ))}
       </ul>
     </div>
