@@ -14,6 +14,7 @@ export default async function QuestionsPage() {
           </li>
         ))}
       </ul>
+      <Link href="/questions/new">+ New Question</Link>
     </main>
   );
 }
