@@ -6,11 +6,15 @@ export default async function QuestionPage({
 }: {
   params: { id: string };
 }) {
-  const question = await prisma.question.findUnique({
-    where: { id },
-  });
+  const select = {
+    subject: true,
+    content: true,
+    createdAt: true,
+    answers: true,
+  };
+  const question = await prisma.question.findUnique({ where: { id }, select });
   if (!question) return notFound();
-  const { subject, content, createdAt } = question;
+  const { subject, content, createdAt, answers } = question;
 
   return (
     <main>
