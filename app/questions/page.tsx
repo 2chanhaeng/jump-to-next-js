@@ -5,7 +5,7 @@ export default async function QuestionsPage() {
   const questions = await prisma.question.findMany();
 
   return (
-    <div>
+    <main>
       <h1>Questions</h1>
       <ul>
         {questions.map(({ id, subject }) => (
@@ -14,6 +14,6 @@ export default async function QuestionsPage() {
           </li>
         ))}
       </ul>
-    </div>
+    </main>
   );
 }

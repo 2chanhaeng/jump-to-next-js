@@ -13,7 +13,7 @@ export default async function QuestionPage({
   const { subject, content, createdAt } = question;
 
   return (
-    <div>
+    <main>
       <h1>{subject}</h1>
       <p>{content}</p>
       <p>{createdAt.toString()}</p>
@@ -23,6 +23,6 @@ export default async function QuestionPage({
           timeStyle: "short",
         }).format(createdAt)}
       </p>
-    </div>
+    </main>
   );
 }
