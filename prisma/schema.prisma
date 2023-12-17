@@ -26,6 +26,14 @@ model Answer {
   questionId String
 }
 
+model Credential {
+  id       String @id @default(cuid())
+  username String @unique
+  password String
+
+  @@unique([username, password], name: "credentials")
+}
+
 model Account {
   id                String  @id @default(cuid())
   userId            String
