@@ -30,6 +30,7 @@ model Credential {
   id       String @id @default(cuid())
   username String @unique
   password String
+  salt     String
 
   @@unique([username, password], name: "credentials")
 }
