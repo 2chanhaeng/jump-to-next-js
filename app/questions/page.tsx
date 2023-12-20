@@ -2,7 +2,9 @@ import Link from "next/link";
 import { prisma } from "@/prisma";
 
 export default async function QuestionsPage() {
-  const questions = await prisma.question.findMany();
+  const questions = await prisma.question.findMany({
+    orderBy: { createdAt: "desc" },
+  });
 
   return (
     <main>

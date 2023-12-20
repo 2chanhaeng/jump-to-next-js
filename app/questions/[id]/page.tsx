@@ -11,7 +11,7 @@ export default async function QuestionPage({
     subject: true,
     content: true,
     createdAt: true,
-    answers: true,
+    answers: { orderBy: { createdAt: "desc" as const } },
   };
   const question = await prisma.question.findUnique({ where: { id }, select });
   if (!question) return notFound();
