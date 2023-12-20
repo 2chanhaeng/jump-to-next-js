@@ -1,5 +1,6 @@
 import Credentials from "next-auth/providers/credentials";
 import { prisma } from "@/prisma";
+import { encrypt } from "@/utils/encrypt";
 
 export default Credentials({
   credentials: {
@@ -15,9 +16,14 @@ export default Credentials({
     },
   },
   async authorize(credentials) {
-    const { username, password } = credentials;
-    if (typeof username !== "string" || typeof password !== "string")
-      return null;
+    const { username, password: plain } = credentials;
+    if (typeof username !== "string" || typeof plain !== "string") return null;
+    const salty = await prisma.credential.findUnique({
+      where: { username },
+      select: { salt: true },
+    });
+    if (!salty) return null;
+    const { password } = encrypt(plain, salty.salt);
     const credential = await prisma.credential.findUnique({
       where: { credentials: { username, password } },
       select: { id: true },
