@@ -1,18 +1,13 @@
 "use client";
 
 import { useFormState } from "react-dom";
-import { State, signup } from "./actions";
-
-const initialState: State = {
-  username: "",
-  password: "",
-};
+import { signup } from "@/actions/signup";
 
 export default function SignupPage() {
-  const [state, formAction] = useFormState(signup, initialState);
+  const [state, dispatchSignup] = useFormState(signup, { message: "" });
 
   return (
-    <form action={formAction}>
+    <form action={dispatchSignup}>
       <label>
         Username
         <input name="username" />
@@ -21,7 +16,7 @@ export default function SignupPage() {
         Password
         <input name="password" type="password" />
       </label>
-      <p>{JSON.stringify(state)}</p>
+      <p>{state.message}</p>
       <button type="submit">Sign up</button>
     </form>
   );
