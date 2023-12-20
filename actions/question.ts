@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { Prisma, prisma } from "@/prisma";
 import { revalidatePath } from "next/cache";
 
-export async function createQuestion(form: FormData) {
+export async function create(form: FormData) {
   const subject = form.get("subject") as string;
   const content = form.get("content") as string;
   const data: Prisma.QuestionCreateInput = { subject, content };

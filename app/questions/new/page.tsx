@@ -1,10 +1,10 @@
-import { createQuestion } from "./actions";
+import { create } from "@/actions/question";
 
 export default function NewQuestionPage() {
   return (
     <main>
       <h1>New Question</h1>
-      <form action={createQuestion}>
+      <form action={create}>
         <label>
           Subject
           <input type="text" name="subject" />
