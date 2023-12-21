@@ -16,8 +16,8 @@ model Question {
   content   String
   createdAt DateTime @default(now())
   answers   Answer[]
-  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String?
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
 }
 
 model Answer {
@@ -26,8 +26,8 @@ model Answer {
   createdAt  DateTime @default(now())
   question   Question @relation(fields: [questionId], references: [id])
   questionId String
-  user       User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId     String?
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
 }
 
 model Credential {
@@ -67,9 +67,9 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
+  id            String     @id @default(cuid())
+  name          String
+  email         String?    @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
