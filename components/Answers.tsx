@@ -1,4 +1,4 @@
-import type { Answer } from "@/prisma";
+import { Answer } from "@/types/answer";
 import { Answer as Li } from "./Answer";
 import { NewAnswer } from "./NewAnswer";
 
