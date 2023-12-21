@@ -11,16 +11,35 @@ export default async function QuestionPage({
     subject: true,
     content: true,
     createdAt: true,
-    answers: { orderBy: { createdAt: "desc" as const } },
+    user: { select: { name: true } },
+    answers: {
+      orderBy: { createdAt: "desc" as const },
+      select: {
+        id: true,
+        content: true,
+        createdAt: true,
+        userId: true,
+        user: { select: { name: true } },
+      },
+    },
   };
   const question = await prisma.question.findUnique({ where: { id }, select });
   if (!question) return notFound();
-  const { subject, content, createdAt, answers } = question;
+  const {
+    subject,
+    content,
+    createdAt,
+    answers,
+    user: { name },
+  } = question;
 
   return (
     <main>
       <h1>{subject}</h1>
       <p>{content}</p>
+      <p>
+        <em>By {name}</em>
+      </p>
       <p>
         {Intl.DateTimeFormat("ko-KR", {
           dateStyle: "short",
