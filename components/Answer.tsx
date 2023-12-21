@@ -1,6 +1,6 @@
 import { Answer } from "@/types/answer";
 
-export function Answer({ content, createdAt }: Answer) {
+export function Answer({ content, createdAt, user: { name } }: Answer) {
   return (
     <li>
       <p>{content}</p>
@@ -9,6 +9,9 @@ export function Answer({ content, createdAt }: Answer) {
           dateStyle: "short",
           timeStyle: "short",
         }).format(createdAt)}
+      </p>
+      <p>
+        <em>By {name}</em>
       </p>
     </li>
   );
