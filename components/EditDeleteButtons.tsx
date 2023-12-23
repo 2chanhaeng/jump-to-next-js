@@ -1,8 +1,9 @@
 import { destroy } from "@/actions/destroy";
 import { auth } from "@/auth";
 import { prisma } from "@/prisma";
+import Link from "next/link";
 
-export async function DeleteButton({ id }: { id: string }) {
+export async function EditDeleteButtons({ id }: { id: string }) {
   const session = await auth();
   if (!session || !session.user) return <></>;
   const userId = session.user.id;
@@ -13,7 +14,8 @@ export async function DeleteButton({ id }: { id: string }) {
   return (
     <form>
       <input type="hidden" name="id" value={id} />
-      <button formAction={destroy}>Delete</button>;
+      <Link href={`/questions/${id}/edit`}>Edit</Link>
+      <button formAction={destroy}>Delete</button>
     </form>
   );
 }
