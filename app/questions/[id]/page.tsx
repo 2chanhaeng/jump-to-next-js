@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { Answers } from "@/components/Answers";
 import { prisma } from "@/prisma";
+import { DeleteButton } from "@/components/DeleteButton";
 
 export default async function QuestionPage({
   params: { id },
@@ -46,6 +47,7 @@ export default async function QuestionPage({
           timeStyle: "short",
         }).format(createdAt)}
       </p>
+      <DeleteButton id={id} />
       <Answers id={id} answers={answers} />
     </main>
   );
