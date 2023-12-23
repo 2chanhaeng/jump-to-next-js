@@ -18,6 +18,8 @@ model Question {
   answers   Answer[]
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
+
+  @@unique([id, userId], name: "ownership")
 }
 
 model Answer {
@@ -28,6 +30,8 @@ model Answer {
   questionId String
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
+
+  @@unique([id, userId], name: "ownership")
 }
 
 model Credential {
