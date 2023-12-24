@@ -1,4 +1,4 @@
-import { destroy } from "@/actions/destroy";
+import { destroy } from "@/actions/question";
 import { auth } from "@/auth";
 import { prisma } from "@/prisma";
 import Link from "next/link";

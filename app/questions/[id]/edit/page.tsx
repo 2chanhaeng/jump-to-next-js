@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { edit } from "@/actions/edit";
+import { update } from "@/actions/question";
 import { auth } from "@/auth";
 import { prisma } from "@/prisma";
 
@@ -19,7 +19,7 @@ export default async function QuestionEditPage({
   return (
     <main>
       <Link href={`/questions/${id}`}>{"<"} Cancle Edit</Link>
-      <form action={edit}>
+      <form action={update}>
         <input type="hidden" name="id" value={id} />
         <label>
           Subject

@@ -16,3 +16,30 @@ export async function create(form: FormData) {
   revalidatePath("/questions");
   redirect(`/questions/${id}`);
 }
+
+export async function update(form: FormData) {
+  const session = await auth();
+  if (!session || !session.user) return;
+  const userId = session.user.id;
+  const id = form.get("id") as string;
+  const where = { ownership: { id, userId } };
+  const data = {
+    subject: form.get("subject") as string,
+    content: form.get("content") as string,
+  };
+  await prisma.question.update({ where, data });
+  revalidatePath(`/questions`);
+  revalidatePath(`/questions/${id}`);
+  return redirect(`/questions/${id}`);
+}
+
+export async function destroy(form: FormData) {
+  const session = await auth();
+  if (!session || !session.user) return;
+  const userId = session.user.id;
+  const id = form.get("id") as string;
+  if (!id) return;
+  await prisma.question.delete({ where: { ownership: { userId, id } } });
+  revalidatePath("/questions");
+  return redirect("/questions");
+}
