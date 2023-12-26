@@ -39,6 +39,7 @@ export async function destroy(form: FormData) {
   const id = form.get("id") as string;
   if (!id) return;
   await prisma.question.delete({ where: { ownership: { userId, id } } });
+  revalidatePath(`/questions/${id}`);
   revalidatePath("/questions");
   return redirect("/questions");
 }
