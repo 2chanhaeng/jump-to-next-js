@@ -4,6 +4,7 @@ import Google from "next-auth/providers/google";
 export default Google({
   clientId: process.env.GOOGLE_ID,
   clientSecret: process.env.GOOGLE_PW,
+  allowDangerousEmailAccountLinking: true,
   authorization: {
     params: {
       prompt: "consent",

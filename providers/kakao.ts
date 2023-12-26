@@ -4,4 +4,5 @@ import Kakao from "next-auth/providers/kakao";
 export default Kakao({
   clientId: process.env.KAKAO_ID,
   clientSecret: process.env.KAKAO_PW,
+  allowDangerousEmailAccountLinking: true,
 });
