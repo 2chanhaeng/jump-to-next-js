@@ -1,8 +1,10 @@
+import Link from "next/link";
 import { create } from "@/actions/question";
 
 export default function NewQuestionPage() {
   return (
     <main>
+      <Link href="/questions">{"<"} Back to Questions</Link>
       <h1>New Question</h1>
       <form action={create}>
         <label>

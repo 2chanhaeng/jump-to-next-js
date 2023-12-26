@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { Answers } from "@/components/Answers";
 import { prisma } from "@/prisma";
+import Link from "next/link";
 import { EditDeleteButtons } from "@/components/EditDeleteButtons";
 
 export default async function QuestionPage({
@@ -36,6 +37,7 @@ export default async function QuestionPage({
 
   return (
     <main>
+      <Link href="/questions">{"<"} Back to Questions</Link>
       <h1>{subject}</h1>
       <p>{content}</p>
       <p>
