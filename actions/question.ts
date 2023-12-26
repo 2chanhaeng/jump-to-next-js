@@ -23,10 +23,9 @@ export async function update(form: FormData) {
   const userId = session.user.id;
   const id = form.get("id") as string;
   const where = { ownership: { id, userId } };
-  const data = {
-    subject: form.get("subject") as string,
-    content: form.get("content") as string,
-  };
+  const subject = form.get("subject") as string;
+  const content = form.get("content") as string;
+  const data = { subject, content };
   await prisma.question.update({ where, data });
   revalidatePath(`/questions`);
   revalidatePath(`/questions/${id}`);
