@@ -1,6 +1,13 @@
+import { SessionProvider } from "next-auth/react";
 import { Answer } from "@/types/answer";
+import { AnswerAuthorSection } from "./AnswerAuthorSection";
 
-export function Answer({ content, createdAt, user: { name } }: Answer) {
+export function Answer({
+  id,
+  content,
+  createdAt,
+  user: { id: userId, name },
+}: Answer) {
   return (
     <li>
       <p>{content}</p>
@@ -13,6 +20,9 @@ export function Answer({ content, createdAt, user: { name } }: Answer) {
       <p>
         <em>By {name}</em>
       </p>
+      <SessionProvider>
+        <AnswerAuthorSection id={id} userId={userId} content={content} />
+      </SessionProvider>
     </li>
   );
 }
