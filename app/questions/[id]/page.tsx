@@ -21,7 +21,7 @@ export default async function QuestionPage({
         content: true,
         createdAt: true,
         userId: true,
-        user: { select: { name: true } },
+        user: { select: { id: true, name: true } },
       },
     },
   };
