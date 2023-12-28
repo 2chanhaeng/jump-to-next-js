@@ -15,9 +15,16 @@ export const { handlers, signOut, auth } = NextAuth({
         return Response.redirect(new URL("/", nextUrl));
       return true;
     },
+    jwt({ token, user }) {
+      if (user?.id) token.uid = user.id;
+      return token;
+    },
     session({ session, token }) {
       if (session?.user && token.sub) session.user.id = token.sub;
       return session;
     },
+  },
+  session: {
+    strategy: "jwt",
   },
 });
