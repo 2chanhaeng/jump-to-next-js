@@ -26,7 +26,7 @@ model Answer {
   id         String   @id @default(uuid())
   content    String
   createdAt  DateTime @default(now())
-  question   Question @relation(fields: [questionId], references: [id])
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
   questionId String
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
@@ -72,14 +72,14 @@ model Session {
 
 model User {
   id            String     @id @default(cuid())
-  name          String
+  name          String?
   email         String?    @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
-  Question      Question[]
-  Answer        Answer[]
+  questions     Question[]
+  answers       Answer[]
 }
 
 model VerificationToken {
