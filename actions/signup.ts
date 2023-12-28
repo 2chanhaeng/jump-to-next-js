@@ -17,10 +17,9 @@ export async function signup(_: ErrorMessage, form: FormData) {
     .create(credentialCreateInput)
     .catch(handleUserCreateError);
   if ("message" in credential) return credential;
-  const user = await prisma.user.create({ data: { name: username } });
   const accountCreateInput = {
     data: {
-      user: { connect: { id: user.id } },
+      user: { create: { name: username } },
       provider: "credentials",
       type: "credentials",
       providerAccountId: credential.id,
