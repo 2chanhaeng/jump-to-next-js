@@ -2,16 +2,19 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("PRISMA_URL")
+  directUrl    = env("PLANET_URL")
+  relationMode = "prisma"
 }
 
 model Question {
-  id        String   @id @default(uuid())
+  id        String   @id @default(nanoid())
   subject   String
   content   String
   createdAt DateTime @default(now())
@@ -20,10 +23,12 @@ model Question {
   userId    String
 
   @@unique([id, userId], name: "ownership")
+  @@index([userId])
+  @@fulltext([subject, content])
 }
 
 model Answer {
-  id         String   @id @default(uuid())
+  id         String   @id @default(nanoid())
   content    String
   createdAt  DateTime @default(now())
   question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
@@ -32,6 +37,8 @@ model Answer {
   userId     String
 
   @@unique([id, userId], name: "ownership")
+  @@index([userId])
+  @@index([questionId])
 }
 
 model Credential {
@@ -49,17 +56,18 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String?
-  access_token      String?
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String?
+  id_token          String? @db.Text
   session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@index([userId])
 }
 
 model Session {
@@ -68,6 +76,8 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 model User {
