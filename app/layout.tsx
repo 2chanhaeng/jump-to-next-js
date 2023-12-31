@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import Grid from "@mui/material/Grid";
 import "./globals.css";
 import { Logout } from "@/components/Logout";
+import Search from "@/components/Search";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,6 +25,7 @@ export default function RootLayout({
         className={inter.className}
         maxWidth="xs"
       >
+        <Search />
         <Logout />
         {children}
       </Grid>
