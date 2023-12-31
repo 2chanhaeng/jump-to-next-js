@@ -1,7 +1,11 @@
+import Link from "next/link";
+import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { destroy } from "@/actions/question";
 import { auth } from "@/auth";
 import { prisma } from "@/prisma";
-import Link from "next/link";
 
 export async function EditDeleteButtons({ id }: { id: string }) {
   const session = await auth();
@@ -12,10 +16,30 @@ export async function EditDeleteButtons({ id }: { id: string }) {
   });
   if (!ownership) return <></>;
   return (
-    <form>
+    <Grid item container spacing={2} component="form">
       <input type="hidden" name="id" value={id} />
-      <Link href={`/questions/${id}/edit`}>Edit</Link>
-      <button formAction={destroy}>Delete</button>
-    </form>
+      <Grid item>
+        <Link href={`/questions/${id}/edit`}>
+          <Button
+            type="submit"
+            variant="contained"
+            color="info"
+            startIcon={<EditIcon />}
+          >
+            Edit
+          </Button>
+        </Link>
+      </Grid>
+      <Grid item>
+        <Button
+          formAction={destroy}
+          variant="contained"
+          color="error"
+          startIcon={<DeleteIcon />}
+        >
+          Delete
+        </Button>
+      </Grid>
+    </Grid>
   );
 }

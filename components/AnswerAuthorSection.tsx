@@ -1,10 +1,15 @@
 "use client";
 
-import { RefObject, useRef } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { useSession } from "next-auth/react";
-import { update, destroy } from "@/actions/answer";
+import Grid from "@mui/material/Grid";
+import Button from "@mui/material/Button";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { destroy } from "@/actions/answer";
+import EditModal from "./AnswerEditModal";
 
-export function AnswerAuthorSection({
+export default function AnswerAuthorSection({
   id,
   userId,
   content,
@@ -14,51 +19,47 @@ export function AnswerAuthorSection({
   content: string;
 }) {
   const session = useSession();
-  const modal = useRef<HTMLDialogElement>(null);
+  const [open, setOpen] = useState(false);
   if (session?.data?.user?.id !== userId) return <></>;
   return (
-    <section>
-      <DeleteButton id={id} />
-      <EditModal modal={modal} id={id} content={content} />
-      <EditButton modal={modal} />
-    </section>
+    <Grid item container spacing={2}>
+      <Grid item>
+        <EditButton setOpen={setOpen} />
+      </Grid>
+      <Grid item>
+        <DeleteButton id={id} />
+      </Grid>
+      <EditModal open={open} setOpen={setOpen} id={id} content={content} />
+    </Grid>
   );
 }
 
 function DeleteButton({ id }: { id: string }) {
-  return <button onClick={async () => await destroy(id)}>Delete</button>;
-}
-
-function EditModal({
-  modal,
-  id,
-  content,
-}: {
-  modal: RefObject<HTMLDialogElement>;
-  id: string;
-  content: string;
-}) {
   return (
-    <dialog
-      ref={modal}
-      onBlur={(e) => {
-        if (e.target === modal.current) modal.current?.close();
-      }}
+    <Button
+      color="error"
+      variant="contained"
+      onClick={async () => await destroy(id)}
+      startIcon={<DeleteIcon />}
     >
-      <form
-        action={(form) => {
-          const changed = form.get("content") !== content;
-          if (changed) update(form).then(() => modal.current?.close());
-        }}
-      >
-        <input type="hidden" name="id" value={id} />
-        <textarea name="content" defaultValue={content} required />
-        <button>Update</button>
-      </form>
-    </dialog>
+      Delete
+    </Button>
   );
 }
 
-function EditButton({ modal }: { modal: RefObject<HTMLDialogElement> }) {
-  return <button onClick={() => modal.current?.showModal()}>Edit</button>;
+function EditButton({
+  setOpen,
+}: {
+  setOpen: Dispatch<SetStateAction<boolean>>;
+}) {
+  return (
+    <Button
+      color="info"
+      variant="contained"
+      onClick={() => setOpen(true)}
+      startIcon={<EditIcon />}
+    >
+      Edit
+    </Button>
+  );
 }

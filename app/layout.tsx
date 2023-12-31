@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Grid from "@mui/material/Grid";
 import "./globals.css";
 import { Logout } from "@/components/Logout";
 
@@ -17,10 +18,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <Grid
+        container
+        component="body"
+        className={inter.className}
+        maxWidth="xs"
+      >
         <Logout />
         {children}
-      </body>
+      </Grid>
     </html>
   );
 }

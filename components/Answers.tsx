@@ -1,17 +1,37 @@
+import Grid from "@mui/material/Grid";
+import List from "@mui/material/List";
 import { Answer } from "@/types/answer";
-import { Answer as Li } from "./Answer";
-import { NewAnswer } from "./NewAnswer";
+import AnswerItem from "./AnswerItem";
+import NewAnswer from "./NewAnswer";
 
-export function Answers({ id, answers }: { id: string; answers: Answer[] }) {
+export default function Answers({
+  id,
+  answers,
+}: {
+  id: string;
+  answers: Answer[];
+}) {
   return (
-    <section>
-      <h2>Answers</h2>
-      <ul>
-        {answers.map((answer) => (
-          <Li key={answer.id} {...answer} />
-        ))}
-      </ul>
+    <Grid item container flexDirection="column" spacing={2}>
+      <Grid item component="h2">
+        Answers
+      </Grid>
+      {answers.length > 0 ? (
+        <Grid item>
+          <List>
+            {answers.map((answer) => (
+              <AnswerItem key={answer.id} {...answer} />
+            ))}
+          </List>
+        </Grid>
+      ) : (
+        <NoAnswers />
+      )}
       <NewAnswer id={id} />
-    </section>
+    </Grid>
   );
+}
+
+function NoAnswers() {
+  return <Grid item>아직 답변이 없습니다.</Grid>;
 }

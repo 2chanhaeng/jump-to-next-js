@@ -1,8 +1,11 @@
 import { notFound } from "next/navigation";
-import { Answers } from "@/components/Answers";
+import Grid from "@mui/material/Grid";
+import Answers from "@/components/Answers";
+import Main from "@/components/Main";
 import { prisma } from "@/prisma";
-import Link from "next/link";
 import { EditDeleteButtons } from "@/components/EditDeleteButtons";
+import { BackToQuestionsButton } from "@/components/BackToQuestionsButton";
+import { Typography } from "@mui/material";
 
 export default async function QuestionPage({
   params: { id },
@@ -36,21 +39,23 @@ export default async function QuestionPage({
   } = question;
 
   return (
-    <main>
-      <Link href="/questions">{"<"} Back to Questions</Link>
-      <h1>{subject}</h1>
-      <p>{content}</p>
-      <p>
-        <em>By {name}</em>
-      </p>
-      <p>
-        {Intl.DateTimeFormat("ko-KR", {
-          dateStyle: "short",
-          timeStyle: "short",
-        }).format(createdAt)}
-      </p>
+    <Main alignContent="center">
+      <Grid item>
+        <BackToQuestionsButton />
+      </Grid>
+      <Grid item component="h1">
+        {subject}
+      </Grid>
+      <Grid item>
+        <Typography whiteSpace="pre-line">{content}</Typography>
+      </Grid>
+      <Grid item>
+        <Typography>
+          By {name} At {createdAt.toLocaleString()}
+        </Typography>
+      </Grid>
       <EditDeleteButtons id={id} />
       <Answers id={id} answers={answers} />
-    </main>
+    </Main>
   );
 }
