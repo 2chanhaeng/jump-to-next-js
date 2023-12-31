@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { Prisma, prisma } from "@/prisma";
+import { SearchedQuestion } from "@/types/question";
 
 export async function create(form: FormData) {
   const session = await auth();
@@ -42,4 +43,13 @@ export async function destroy(form: FormData) {
   revalidatePath(`/questions/${id}`);
   revalidatePath("/questions");
   return redirect("/questions");
+}
+
+export async function search(input: string): Promise<SearchedQuestion[]> {
+  const questions = await prisma.question.findMany({
+    where: { subject: { search: input }, content: { search: input } },
+    select: { id: true, subject: true },
+  });
+  console.log("input", input, "\nquestions", questions);
+  return questions;
 }
